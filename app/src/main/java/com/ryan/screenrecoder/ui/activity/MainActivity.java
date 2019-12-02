@@ -27,7 +27,7 @@ import com.ryan.screenrecoder.util.SysUtil;
 public class MainActivity extends Activity implements View.OnClickListener {
     private final int REQUEST_CODE = 0x11;
     private final int PERMISSION_CODE = 0x12;
-    private static final String DEFAULT_IP = "192.168.0.132";
+    private static final String DEFAULT_IP = "192.168.137.60";
 
     private Button button_tcp_preview;
     private Button button_tcp_send;
@@ -42,7 +42,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         button_tcp_preview = ((Button) findViewById(R.id.button_tcp_preview));
         button_tcp_send = ((Button) findViewById(R.id.button_tcp_send));
         edittext_tcp_send_ip = ((EditText) findViewById(R.id.edittext_tcp_send_ip));
-        edittext_tcp_send_ip.setText(SharedUtil.init(this).getIp());
+        String ip = SharedUtil.init(this).getIp();
+        if (TextUtils.isEmpty(ip)) {
+            edittext_tcp_send_ip.setHint("默认IP:" + DEFAULT_IP);
+        }
         button_tcp_preview.setOnClickListener(this);
         button_tcp_send.setOnClickListener(this);
         if (SysValue.api >= Build.VERSION_CODES.M) {
@@ -56,9 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void getAppPermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                PERMISSION_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
     }
 
     private void getMeidProjection() {
@@ -91,7 +92,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_tcp_preview:
                 //todo 接收端
-                startActivity(new Intent(this,PlayerActivity.class));
+                startActivity(new Intent(this, PlayerActivity.class));
                 break;
             case R.id.button_tcp_send:
                 //todo 发送端

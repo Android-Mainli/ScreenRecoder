@@ -16,7 +16,7 @@ import java.net.Socket;
  */
 
 public class TcpSendThread extends Thread {
-    private final int port = 6111;
+    private final int port = TcpServerThread.PORT;
     private String ip = "192.168.0.132";
     private BufferedInputStream inputStream;
     private BufferedOutputStream outputStream;
