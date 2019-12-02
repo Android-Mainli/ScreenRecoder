@@ -91,11 +91,10 @@ public class TcpSendActivity extends AppCompatActivity implements TcpSendThread.
             }
         });
 
-         findViewById(R.id.button_cutscreen).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_cutscreen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (encoder != null)
-                    encoder.cutScreen();
+                if (encoder != null) encoder.cutScreen();
             }
 
         });
@@ -112,16 +111,14 @@ public class TcpSendActivity extends AppCompatActivity implements TcpSendThread.
         if (SysValue.api >= 21) {
             MediaProjection mediaProjection = ScreenApplication.getInstance().getMediaProjection();
             if (mediaProjection != null) {
-                encoder = new MediaEncoder(mediaProjection, 1080, 1920, SysValue.screen_dpi)
-                        .setVideoBit(BIT)
-                        .setVideoFPS(FPS);
+                encoder = new MediaEncoder(mediaProjection, 1080, 1920, SysValue.screen_dpi)//
+                        .setVideoBit(BIT)//设置采样率
+                        .setVideoFPS(FPS);//设置帧率
             }
         } else {
             DisplayManager displayManager = ScreenApplication.getInstance().getDisplayManager();
             if (displayManager != null) {
-                encoder = new MediaEncoder(displayManager, SysValue.screen_width, SysValue.screen_height, SysValue.screen_dpi)
-                        .setVideoBit(BIT)
-                        .setVideoFPS(FPS);
+                encoder = new MediaEncoder(displayManager, SysValue.screen_width, SysValue.screen_height, SysValue.screen_dpi).setVideoBit(BIT).setVideoFPS(FPS);
             }
         }
         if (encoder != null) {
@@ -139,10 +136,8 @@ public class TcpSendActivity extends AppCompatActivity implements TcpSendThread.
     protected void onDestroy() {
         super.onDestroy();
         tcpSendThread.close();//关闭连接
-        if (encoder != null)
-            encoder.stopScreen();//关闭截屏
-        if (videoView_test.isPlaying())
-            videoView_test.stopPlayback();
+        if (encoder != null) encoder.stopScreen();//关闭截屏
+        if (videoView_test.isPlaying()) videoView_test.stopPlayback();
         EventBus.getDefault().unregister(this);
     }
 

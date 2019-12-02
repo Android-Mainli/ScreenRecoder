@@ -1,6 +1,7 @@
 package com.ryan.screenrecoder.ui.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,19 +12,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ryan.screenrecoder.R;
 import com.ryan.screenrecoder.application.ScreenApplication;
 import com.ryan.screenrecoder.application.SysValue;
+import com.ryan.screenrecoder.util.NetWorkUtils;
 import com.ryan.screenrecoder.util.SharedUtil;
 import com.ryan.screenrecoder.util.SysUtil;
 
+/**
+ * https://blog.csdn.net/chailongger/article/details/83653652
+ */
 public class MainActivity extends Activity implements View.OnClickListener {
     private final int REQUEST_CODE = 0x11;
     private final int PERMISSION_CODE = 0x12;
@@ -39,6 +44,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView textView = (TextView) findViewById(R.id.current_id);
+        textView.setText("当前IP:" + NetWorkUtils.getLocalIpAddress(this));
         button_tcp_preview = ((Button) findViewById(R.id.button_tcp_preview));
         button_tcp_send = ((Button) findViewById(R.id.button_tcp_send));
         edittext_tcp_send_ip = ((EditText) findViewById(R.id.edittext_tcp_send_ip));
@@ -62,6 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_CODE);
     }
 
+    @TargetApi(21)
     private void getMeidProjection() {
         mediaProjectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
         startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE);
@@ -91,11 +99,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_tcp_preview:
-                //todo 接收端
+                // 启动接收端
                 startActivity(new Intent(this, PlayerActivity.class));
                 break;
             case R.id.button_tcp_send:
-                //todo 发送端
+                // 启动发送端
                 String ip = edittext_tcp_send_ip.getText().toString();
                 if (TextUtils.isEmpty(ip)) {
                     ip = DEFAULT_IP;

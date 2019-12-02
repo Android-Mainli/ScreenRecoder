@@ -8,6 +8,8 @@
     <!-- &lt;!&ndash; 如果你的应用要使用纹理压缩功能，你必须还要声明设备需要支持什么样的压缩格式&ndash;&gt; -->
     <!-- <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" /> -->
     <!-- <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
